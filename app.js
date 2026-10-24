@@ -27,17 +27,24 @@ let userAddress;
 
 // 1. HUBUNGKAN METAMASK
 async function connectWallet() {
-    if (!window.ethereum) return alert("MetaMask belum terpasang di browser kamu!");
-    try {
-        provider = new ethers.BrowserProvider(window.ethereum);
-        signer = await provider.getSigner();
-        userAddress = await signer.getAddress();
+    if (typeof window.ethereum !== 'undefined') {
+        try {
+            // Minta izin akses akun ke MetaMask
+            const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+            
+            provider = new ethers.BrowserProvider(window.ethereum);
+            signer = await provider.getSigner();
+            userAddress = accounts[0];
 
-        document.getElementById("walletAddress").innerText = `${userAddress.substring(0, 6)}...${userAddress.substring(38)}`;
-        document.getElementById("connectBtn").innerText = "Wallet Terhubung";
-        alert("Wallet terhubung!");
-    } catch (err) {
-        console.error("Gagal koneksi wallet:", err);
+            document.getElementById("walletAddress").innerText = `${userAddress.substring(0, 6)}...${userAddress.substring(38)}`;
+            document.getElementById("connectBtn").innerText = "Wallet Terhubung";
+            alert("Berhasil terhubung ke MetaMask!");
+        } catch (err) {
+            console.error("Gagal koneksi wallet:", err);
+            alert("Koneksi dibatalkan atau terjadi kesalahan: " + err.message);
+        }
+    } else {
+        alert("MetaMask tidak terdeteksi! Pastikan ekstensi MetaMask sudah terpasang di browser.");
     }
 }
 
