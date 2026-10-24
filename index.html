@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TerraForge - RWA Asset & Simulation Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Import Pustaka Ethers.js v6 via CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.7.0/ethers.umd.min.js"></script>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <header class="navbar">
+        <div class="logo">
+            ⚡ TerraForge <span class="badge">Monad Testnet</span>
+        </div>
+        <div class="wallet-container">
+            <span id="walletAddress" class="wallet-text">Belum Terhubung</span>
+            <button id="connectBtn" class="btn-primary" onclick="connectWallet()">Hubungkan MetaMask</button>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- MODUL 1: LAND REGISTRY (RWA) -->
+        <section class="card">
+            <div class="card-header">
+                <h2>1. Pencatatan Aset Tanah (RWA Registry)</h2>
+                <p>Daftarkan data aset tanah dan hash bukti sertifikat digital ke blockchain.</p>
+            </div>
+            
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Lokasi Aset</label>
+                    <input type="text" id="regLocation" placeholder="Contoh: Bandung, Jawa Barat">
+                </div>
+                <div class="form-group">
+                    <label>Luas Tanah (m²)</label>
+                    <input type="number" id="regArea" placeholder="Contoh: 500">
+                </div>
+                <div class="form-group full-width">
+                    <label>Hash Dokumen Sertifikat (bytes32 / Teks Bebas)</label>
+                    <input type="text" id="regHash" placeholder="Contoh: 0x123... atau nomor sertifikat">
+                </div>
+            </div>
+            <button class="btn-success" onclick="registerLandAsset()">+ Daftarkan Aset Baru</button>
+
+            <div class="divider"></div>
+
+            <h3>Cek Status & Detail Aset</h3>
+            <div class="search-box">
+                <input type="number" id="searchAssetId" placeholder="Masukkan ID Aset (Contoh: 1)">
+                <button class="btn-secondary" onclick="getLandAssetDetails()">Cari Aset</button>
+            </div>
+            <div id="landDetails" class="output-box">Silakan masukkan ID Aset untuk melihat rincian...</div>
+        </section>
+
+        <!-- MODUL 2: REVENUE FUNDING SIMULATION -->
+        <section class="card">
+            <div class="card-header">
+                <h2>2. Simulasi Arus Kas Bisnis (Revenue Funding)</h2>
+                <p>Buat proyeksi bisnis berbasis bagi hasil tanpa pengikatan agunan fisik.</p>
+            </div>
+
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>ID Referensi Lahan</label>
+                    <input type="number" id="projAssetId" placeholder="ID Aset Tanah">
+                </div>
+                <div class="form-group">
+                    <label>Nama Proyek Usaha</label>
+                    <input type="text" id="projName" placeholder="Contoh: Kebun Kopi Organik">
+                </div>
+                <div class="form-group">
+                    <label>Target Dana Simulasi (IDR/USD)</label>
+                    <input type="number" id="projTarget" placeholder="Contoh: 50000000">
+                </div>
+                <div class="form-group">
+                    <label>Proyeksi Pendapatan Kotor</label>
+                    <input type="number" id="projRev" placeholder="Contoh: 80000000">
+                </div>
+                <div class="form-group">
+                    <label>Proyeksi Biaya Operasional</label>
+                    <input type="number" id="projExp" placeholder="Contoh: 30000000">
+                </div>
+                <div class="form-group">
+                    <label>Bagi Hasil Pendana (%)</label>
+                    <input type="number" id="projShare" placeholder="Contoh: 15">
+                </div>
+            </div>
+            <button class="btn-success" onclick="createBusinessProject()">Buat Proyek Simulasi</button>
+        </section>
+
+        <!-- MODUL 3: VIRTUAL LAND (GAMEFI & EDUKASI) -->
+        <section class="card">
+            <div class="card-header">
+                <h2>3. Virtual Land NFT (GameFi & Edukasi)</h2>
+                <p class="warning-text">⚠️ Catatan: Lahan virtual ini murni untuk sarana edukasi & simulasi, bukan klaim hukum atas aset fisik.</p>
+            </div>
+
+            <div class="search-box">
+                <input type="text" id="virtualCoords" placeholder="Koordinat Peta Virtual (Contoh: X:12, Y:45)">
+                <button class="btn-primary" onclick="mintVirtualLandNFT()">Mint Virtual Land</button>
+            </div>
+            <div id="virtualDetails" class="output-box">Hasil minting lahan virtual akan muncul di sini...</div>
+        </section>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
